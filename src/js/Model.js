@@ -25,7 +25,10 @@ export class Model {
   }
 
   updateCharacterKeys() {
-    this.view.updateCharacters(this.characterKeys, this.language, this.isUpperCase, this.isCapsLockOn);
+    this.view.updateCharacters(this.characterKeys,
+      this.language,
+      this.isUpperCase,
+      this.isCapsLockOn);
   }
 
   changeLine(char) {
@@ -36,27 +39,27 @@ export class Model {
 
   addCharacterToLine(code) {
     let char = this.characterKeys[code].value[this.language][this.isUpperCase ? 1 : 0];
-    if(this.isCapsLockOn) { char = char.toUpperCase(); }
+    if (this.isCapsLockOn) { char = char.toUpperCase(); }
     this.changeLine(char);
   }
 
   addTabToLine() {
-    let tab = '\t';
+    const tab = '\t';
     this.changeLine(tab);
   }
 
   addSpaceToLine() {
-    let space = ' ';
+    const space = ' ';
     this.changeLine(space);
   }
 
   goToNewLine() {
-    let newLine = '\n';
+    const newLine = '\n';
     this.changeLine(newLine);
   }
 
   removeCharacter(position) {
-    if(position === 'before') {
+    if (position === 'before') {
       this.line = this.line.slice(0, this.cursorPosition - 1) + this.line.slice(this.cursorPosition, this.line.length);
       this.cursorPosition--;
     } else {
@@ -78,6 +81,32 @@ export class Model {
   toggleLanguage() {
     this.language = this.language === 'en' ? 'ru' : 'en';
     this.updateCharacterKeys();
+  }
+
+  moveCursore(direction) {
+    if (typeof direction === 'number') {
+      this.cursorPosition = direction;
+    } else {
+      switch (direction) {
+        case 'left':
+          this.cursorPosition > 0 && this.cursorPosition--;
+          break;
+        case 'right':
+          this.cursorPosition < this.line.length && this.cursorPosition++;
+          break;
+        case 'up':
+          if (this.cursorPosition - 90 >= 0) {
+            this.cursorPosition -= 90;
+          }
+          break;
+        case 'down':
+          this.cursorPosition += 90;
+          if (this.cursorPosition > this.line.length) {
+            this.cursorPosition = this.line.length;
+          }
+      }
+    }
+    this.view.updateText();
   }
 }
 

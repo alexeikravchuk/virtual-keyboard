@@ -18,15 +18,15 @@
   user-select: none;
 
   @media screen and (max-width: 900px){
-    transform: scale(0.95);
+    transform: scale(0.9);
   }
 
   @include media-tablet {
-    transform: scale(0.89);
+    transform: scale(0.8);
   }
 
-  @media screen and (max-width: 900px){
-    transform: scale(0.75);
+  @media screen and (max-width: 670px){
+    transform: scale(0.6);
   }
 
   @include media-mobile {

@@ -17,19 +17,19 @@ export class Controller {
   }
 
   addListeners() {
-    document.addEventListener('keydown', e => this.keyAction(e));
-    document.addEventListener('keyup', e => this.keyAction(e));
-    document.addEventListener("mousedown", e => this.mouseAction(e));
-    document.addEventListener("mouseup", e => this.mouseAction(e));
+    document.addEventListener('keydown', (e) => this.keyAction(e));
+    document.addEventListener('keyup', (e) => this.keyAction(e));
+    document.addEventListener('mousedown', (e) => this.mouseAction(e));
+    document.addEventListener('mouseup', (e) => this.mouseAction(e));
   }
 
   keyAction(e) {
     e.preventDefault();
     const keys = this.container.querySelectorAll('.key');
-    keys.forEach(key => {
+    keys.forEach((key) => {
       const code = key.getAttribute('data-code');
-      if(code === e.code) {
-        if(e.type === 'keydown') {
+      if (code === e.code) {
+        if (e.type === 'keydown') {
           this.keyDownAction(key);
         } else {
           this.keyUpAction(key);
@@ -39,39 +39,42 @@ export class Controller {
   }
 
   mouseAction(e) {
-    if(e.target.classList.contains('key')) {
-      if(e.type === 'mousedown') {
+    if (e.target.classList.contains('key')) {
+      if (e.type === 'mousedown') {
         this.keyDownAction(e.target);
       }
     }
-    if(e.type === 'mouseup') {
+    if (e.type === 'mouseup') {
       const keys = this.container.querySelectorAll('.key');
-      keys.forEach(key => {
+      keys.forEach((key) => {
         this.keyUpAction(key);
       });
+    }
+    if (e.target.classList.contains('text-field')) {
+      const cursorPosition = e.target.selectionStart;
+      this.model.moveCursore(cursorPosition);
     }
   }
 
   keyDownAction(key) {
-    if(key.dataset.code !== 'CapsLock') {
+    if (key.dataset.code !== 'CapsLock') {
       key.classList.add('active');
     } else {
       key.classList.toggle('active');
     }
 
-    if(!key.classList.contains('special_key')){
+    if (!key.classList.contains('special_key')) {
       this.model.addCharacterToLine(key.dataset.code);
     } else {
       this.specialKeyDownAction(key);
-
     }
   }
 
   keyUpAction(key) {
-    if(key.dataset.code !== 'CapsLock') {
+    if (key.dataset.code !== 'CapsLock') {
       key.classList.remove('active');
     }
-    if(key.classList.contains('special_key')){
+    if (key.classList.contains('special_key')) {
       this.specialKeyUpAction(key);
     }
   }
@@ -102,13 +105,13 @@ export class Controller {
         break;
       case 'ControlLeft':
         this.isControlLeftOn = true;
+        this.changeLanguageCheck();
         break;
       case 'ControlRight':
         this.isControlRightOn = true;
         break;
       case 'AltLeft':
         this.isAltLeftOn = true;
-        this.changeLanguageCheck();
         break;
       case 'AltRight':
         this.isAltLeftOn = true;
@@ -116,6 +119,17 @@ export class Controller {
       case 'Space':
         this.model.addSpaceToLine();
         break;
+      case 'ArrowLeft':
+        this.model.moveCursore('left');
+        break;
+      case 'ArrowRight':
+        this.model.moveCursore('right');
+        break;
+      case 'ArrowUp':
+        this.model.moveCursore('up');
+        break;
+      case 'ArrowDown':
+        this.model.moveCursore('down');
     }
   }
 
@@ -143,7 +157,7 @@ export class Controller {
   }
 
   changeLanguageCheck() {
-    if(this.isShiftLeftOn && this.isAltLeftOn) {
+    if (this.isShiftLeftOn && this.isControlLeftOn) {
       this.model.toggleLanguage();
     }
   }

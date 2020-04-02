@@ -56,7 +56,8 @@ export class View {
 
   updateText() {
     this.textarea.value = this.model.line;
-    this.textarea.selectionStart = this.textarea.selectionEnd = this.model.cursorPosition;
+    this.textarea.selectionStart = this.model.cursorPosition;
+    this.textarea.selectionEnd = this.model.cursorPosition;
     setTimeout(() => this.textarea.focus(), 10);
   }
 }

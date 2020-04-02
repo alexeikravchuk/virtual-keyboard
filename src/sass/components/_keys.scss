@@ -13,6 +13,7 @@
   box-shadow: inset -2px -2px 3px 2px $color-keyboard-shadow;
   cursor: pointer;
   transition: all 0.1s linear;
+  -webkit-tap-highlight-color:transparent;
   &:first-child {
     flex-basis: 3.5%;
   }
