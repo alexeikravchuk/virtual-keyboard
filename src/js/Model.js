@@ -65,7 +65,7 @@ export default class Model {
   removeCharacter(position) {
     let startLine = '';
     let endLine = '';
-    if (position === 'before') {
+    if (position === 'before' && this.cursorPosition > 0) {
       startLine = this.line.slice(0, this.cursorPosition - 1);
       endLine = this.line.slice(this.cursorPosition, this.line.length);
       this.cursorPosition -= 1;

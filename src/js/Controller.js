@@ -168,7 +168,7 @@ export default class Controller {
   }
 
   changeLanguageCheck() {
-    if (this.isShiftLeftOn && this.isControlLeftOn) {
+    if ((this.isShiftLeftOn || this.isShiftRightOn) && this.isControlLeftOn) {
       this.model.toggleLanguage();
     }
   }
