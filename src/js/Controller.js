@@ -102,6 +102,7 @@ export default class Controller {
         this.model.toggleUpperCase(true);
         break;
       case 'ShiftRight':
+        this.changeLanguageCheck();
         this.model.toggleUpperCase(true);
         this.isShiftRightOn = true;
         break;
