@@ -1,4 +1,4 @@
-export class Controller {
+export default class Controller {
   constructor() {
     this.model = null;
     this.container = null;
@@ -41,7 +41,7 @@ export class Controller {
   mouseAction(e) {
     if (e.target.classList.contains('key')) {
       if (e.type === 'mousedown') {
-        this.keyDownAction(e.target);
+        this.keyDownAction(e.target, e);
       }
     }
     if (e.type === 'mouseup') {
@@ -99,6 +99,8 @@ export class Controller {
       case 'ShiftLeft':
         this.isShiftLeftOn = true;
         this.changeLanguageCheck();
+        this.model.toggleUpperCase(true);
+        break;
       case 'ShiftRight':
         this.model.toggleUpperCase(true);
         this.isShiftRightOn = true;
@@ -130,13 +132,19 @@ export class Controller {
         break;
       case 'ArrowDown':
         this.model.moveCursore('down');
+        break;
+      default:
+        return -1;
     }
+    return -1;
   }
 
   specialKeyUpAction(key) {
     switch (key.dataset.code) {
       case 'ShiftLeft':
         this.isShiftLeftOn = false;
+        this.model.toggleUpperCase(false);
+        break;
       case 'ShiftRight':
         this.isShiftRightOn = false;
         this.model.toggleUpperCase(false);
@@ -153,7 +161,10 @@ export class Controller {
       case 'AltRight':
         this.isAltLeftOn = false;
         break;
+      default:
+        return -1;
     }
+    return -1;
   }
 
   changeLanguageCheck() {
