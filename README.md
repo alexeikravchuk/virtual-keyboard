@@ -1,4 +1,4 @@
-# [Virtual Keyboard](https://alexeikravchuk.github.io/virtual-keyboard)
+# [Virtual Keyboard](https://alexei-keyboard.netlify.com)
 
 
 1. Pressing a button on a physical keyboard selects a button pressed on a virtual keyboard.
