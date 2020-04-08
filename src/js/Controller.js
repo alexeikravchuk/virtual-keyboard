@@ -26,16 +26,17 @@ export default class Controller {
   keyAction(e) {
     e.preventDefault();
     const keys = this.container.querySelectorAll('.key');
-    keys.forEach((key) => {
-      const code = key.getAttribute('data-code');
-      if (code === e.code) {
-        if (e.type === 'keydown') {
-          this.keyDownAction(key);
-        } else {
-          this.keyUpAction(key);
-        }
+    Array.from(keys).forEach((key) => this.determineKeyAction(e, key));
+  }
+
+  determineKeyAction(e, key) {
+    if (key.getAttribute('data-code') === e.code) {
+      if (e.type === 'keydown') {
+        this.keyDownAction(key);
+      } else {
+        this.keyUpAction(key);
       }
-    });
+    }
   }
 
   mouseAction(e) {
@@ -43,30 +44,24 @@ export default class Controller {
       if (e.type === 'mousedown') {
         this.keyDownAction(e.target, e);
       }
+    } else if (e.target.classList.contains('text-field')) {
+      const cursorPosition = e.target.selectionStart;
+      this.model.moveCursore(cursorPosition);
     }
     if (e.type === 'mouseup') {
       const keys = this.container.querySelectorAll('.key');
-      keys.forEach((key) => {
-        this.keyUpAction(key);
-      });
-    }
-    if (e.target.classList.contains('text-field')) {
-      const cursorPosition = e.target.selectionStart;
-      this.model.moveCursore(cursorPosition);
+      Array.from(keys).forEach((key) => this.keyUpAction(key));
     }
   }
 
   keyDownAction(key) {
-    if (key.dataset.code !== 'CapsLock') {
-      key.classList.add('active');
-    } else {
-      key.classList.toggle('active');
-    }
-
     if (!key.classList.contains('special_key')) {
       this.model.addCharacterToLine(key.dataset.code);
     } else {
       this.specialKeyDownAction(key);
+      if (key.dataset.code !== 'CapsLock') {
+        key.classList.toggle('active');
+      }
     }
   }
 
