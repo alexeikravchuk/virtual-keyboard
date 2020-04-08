@@ -18,21 +18,24 @@ class Keyboard {
 
 
 window.onload = () => {
-  const wrapper = document.createElement('div');
-  wrapper.classList.add('wrapper');
+  function createElement(tagName, ...classNames) {
+    const element = document.createElement(tagName);
+    classNames.forEach((name) => element.classList.add(name));
+    return element;
+  }
+
+  const wrapper = createElement('div', 'wrapper');
   document.body.prepend(wrapper);
 
   wrapper.insertAdjacentHTML('afterbegin', '<h1>Virtual keyboard</h1>');
 
-  const textarea = document.createElement('textarea');
-  textarea.classList.add('text-field');
+  const textarea = createElement('textarea', 'text-field');
   wrapper.append(textarea);
 
-  const keyboardWrapper = document.createElement('div');
-  keyboardWrapper.classList.add('keyboard', 'keyboard_wrapper');
+  const keyboardWrapper = createElement('div', 'keyboard', 'keyboard_wrapper');
   wrapper.append(keyboardWrapper);
 
-  const extraInfo = document.createElement('p');
+  const extraInfo = createElement('p');
   extraInfo.innerText = 'Change language - left Ctrl + Shift. Windows';
   wrapper.append(extraInfo);
 
