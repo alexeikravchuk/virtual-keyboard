@@ -11,7 +11,7 @@ module.exports = (env, options) => {
     mode: isProduction ? 'production' : 'development',
     devtool: isProduction ? 'none' : 'source-map',
     watch: !isProduction,
-    entry: ['./src/index.js', './src/sass/style.scss'],
+    entry: ['@babel/polyfill', './src/index.js', './src/sass/style.scss'],
     output: {
       path: path.join(__dirname, '/dist'),
       filename: 'script.js',
@@ -25,37 +25,37 @@ module.exports = (env, options) => {
           use: {
             loader: 'babel-loader',
             options: {
-              presets: ['@babel/preset-env']
-            }
-          }
+              presets: ['@babel/preset-env'],
+            },
+          },
         }, {
           test: /\.scss$/,
           use: [
-            MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'
-          ]
+            MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader',
+          ],
         }, {
           test: /\.(png|svg|jpe?g|gif)$/,
           use: [
             {
               loader: 'file-loader',
-            }
-          ]
+            },
+          ],
         }, {
           test: /\.html$/i,
           loader: 'html-loader',
         },
-      ]
+      ],
     },
 
     plugins: [
       new CleanWebpackPlugin(),
       new HtmlWebpackPlugin({
-        template: 'index.html'
+        template: 'index.html',
       }),
       new MiniCssExtractPlugin({
-        filename: 'style.css'
-      })
-    ]
+        filename: 'style.css',
+      }),
+    ],
   };
 
   return config;
