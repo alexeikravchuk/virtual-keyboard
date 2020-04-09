@@ -89,9 +89,6 @@ export default class Controller {
         this.model.goToNewLine();
         break;
       case 'ShiftLeft':
-        this.checkIsToggleLanguage.call(this);
-        this.model.toggleUpperCase(true);
-        break;
       case 'ShiftRight':
         this.checkIsToggleLanguage();
         this.model.toggleUpperCase(true);
@@ -118,17 +115,9 @@ export default class Controller {
   }
 
   specialKeyUpAction(key) {
-    switch (key.dataset.code) {
-      case 'ShiftLeft':
-        this.model.toggleUpperCase(false);
-        break;
-      case 'ShiftRight':
-        this.model.toggleUpperCase(false);
-        break;
-      default:
-        return -1;
+    if (key.dataset.code === 'ShiftLeft' || key.dataset.code === 'ShiftRight') {
+      this.model.toggleUpperCase(false);
     }
-    return -1;
   }
 
   checkIsToggleLanguage() {
