@@ -36,7 +36,7 @@ window.onload = () => {
   wrapper.append(keyboardWrapper);
 
   const extraInfo = createElement('p');
-  extraInfo.innerText = 'Change language - left Ctrl + Shift. Windows';
+  extraInfo.innerText = 'Change language - Ctrl + Shift. Windows';
   wrapper.append(extraInfo);
 
   new Keyboard().init(wrapper, textarea, keyboardWrapper);
