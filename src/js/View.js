@@ -1,3 +1,4 @@
+/* eslint-disable no-continue */
 export default class View {
   constructor() {
     this.model = null;
@@ -31,12 +32,16 @@ export default class View {
       // creating block for arrowUp and arrowDown keys
       if (key.getAttribute('data-code') === 'ArrowUp') {
         arrowsUpDown.append(key);
-      } else if (key.getAttribute('data-code') === 'ArrowDown') {
+        continue;
+      }
+
+      if (key.getAttribute('data-code') === 'ArrowDown') {
         arrowsUpDown.append(key);
         this.container.append(arrowsUpDown);
-      } else {
-        this.container.append(key);
+        continue;
       }
+
+      this.container.append(key);
     }
   }
 

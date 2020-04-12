@@ -73,12 +73,15 @@ export default class Model {
       startLine = this.line.slice(0, this.cursorPosition - 1);
       endLine = this.line.slice(this.cursorPosition, this.line.length);
       this.cursorPosition -= 1;
-    } else if (position === 'after') {
+      return 1;
+    }
+
+    if (position === 'after') {
       startLine = this.line.slice(0, this.cursorPosition);
       endLine = this.line.slice(this.cursorPosition + 1, this.line.length);
-    } else {
-      return -1;
+      return 1;
     }
+
     this.line = startLine + endLine;
     this.view.updateText();
     return 1;
@@ -103,31 +106,32 @@ export default class Model {
   moveCursore(direction) {
     if (typeof direction === 'number') {
       this.cursorPosition = direction;
-    } else {
-      switch (direction) {
-        case 'left':
-          if (this.cursorPosition > 0) {
-            this.cursorPosition -= 1;
-          }
-          break;
-        case 'right':
-          if (this.cursorPosition < this.line.length) {
-            this.cursorPosition += 1;
-          }
-          break;
-        case 'up':
-          this.cursorPosition -= 88;
-          if (this.cursorPosition - 88 < 0) {
-            this.cursorPosition = 0;
-          }
-          break;
-        default:
-          this.cursorPosition += 88;
-          if (this.cursorPosition > this.line.length) {
-            this.cursorPosition = this.line.length;
-          }
-      }
+      return 1;
+    }
+    switch (direction) {
+      case 'left':
+        if (this.cursorPosition > 0) {
+          this.cursorPosition -= 1;
+        }
+        break;
+      case 'right':
+        if (this.cursorPosition < this.line.length) {
+          this.cursorPosition += 1;
+        }
+        break;
+      case 'up':
+        this.cursorPosition -= 88;
+        if (this.cursorPosition - 88 < 0) {
+          this.cursorPosition = 0;
+        }
+        break;
+      default:
+        this.cursorPosition += 88;
+        if (this.cursorPosition > this.line.length) {
+          this.cursorPosition = this.line.length;
+        }
     }
     this.view.updateText();
+    return 1;
   }
 }

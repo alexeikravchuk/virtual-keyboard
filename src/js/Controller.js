@@ -24,10 +24,10 @@ export default class Controller {
 
     function determineKeyAction(key) {
       if (e.type === 'keydown') {
-        this.keyDownAction(key);
-      } else {
-        this.keyUpAction(key);
+        return this.keyDownAction(key);
       }
+
+      return this.keyUpAction(key);
     }
 
     const keys = Array.from(this.container.querySelectorAll('.key'));
@@ -36,18 +36,22 @@ export default class Controller {
   }
 
   mouseAction(e) {
-    if (e.target.classList.contains('key')) {
-      if (e.type === 'mousedown') {
-        this.keyDownAction(e.target);
-      }
-    } else if (e.target.classList.contains('text-field')) {
+    if (e.type === 'mousedown' && e.target.classList.contains('key')) {
+      return this.keyDownAction(e.target);
+    }
+
+    if (e.target.classList.contains('text-field')) {
       const cursorPosition = e.target.selectionStart;
-      this.model.moveCursore(cursorPosition);
+      return this.model.moveCursore(cursorPosition);
     }
-    if (e.type === 'mouseup') {
-      const lastKey = this.lastPressedKey[this.lastPressedKey.length - 1];
-      if (lastKey) this.keyUpAction(lastKey);
+
+    const lastKey = this.lastPressedKey[this.lastPressedKey.length - 1];
+
+    if (e.type === 'mouseup' && !!lastKey) {
+      return this.keyUpAction(lastKey);
     }
+
+    return null;
   }
 
   keyDownAction(key) {
