@@ -1,5 +1,5 @@
 import Model from './js/Model';
-import View from './js/View';
+import View, { createElement } from './js/View';
 import Controller from './js/Controller';
 
 class Keyboard {
@@ -16,13 +16,7 @@ class Keyboard {
   }
 }
 
-
 window.onload = () => {
-  function createElement(tagName, ...classNames) {
-    const element = document.createElement(tagName);
-    classNames.forEach((name) => element.classList.add(name));
-    return element;
-  }
 
   const wrapper = createElement('div', 'wrapper');
   document.body.prepend(wrapper);

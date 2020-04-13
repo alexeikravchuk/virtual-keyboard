@@ -21,18 +21,18 @@ export default class Controller {
 
   keyAction(e) {
     e.preventDefault();
-
-    function determineKeyAction(key) {
-      if (e.type === 'keydown') {
-        return this.keyDownAction(key);
-      }
-
-      return this.keyUpAction(key);
-    }
-
     const keys = Array.from(this.container.querySelectorAll('.key'));
     const targetKey = keys.find((key) => key.dataset.code === e.code);
-    if (targetKey) determineKeyAction.call(this, targetKey);
+    if (targetKey) {
+      this.determineKeyAction.call(this, targetKey, e);
+    }
+  }
+
+  determineKeyAction(key, e) {
+    if (e.type === 'keydown') {
+      return this.keyDownAction(key);
+    }
+    return this.keyUpAction(key);
   }
 
   mouseAction(e) {
@@ -47,7 +47,7 @@ export default class Controller {
 
     const lastKey = this.lastPressedKey[this.lastPressedKey.length - 1];
 
-    if (e.type === 'mouseup' && !!lastKey) {
+    if (e.type === 'mouseup' && e.target.classList.contains('key')) {
       return this.keyUpAction(lastKey);
     }
 
@@ -60,7 +60,6 @@ export default class Controller {
     if (!key.classList.contains('special_key')) {
       return this.model.addCharacterToLine(key.dataset.code);
     }
-
     return this.executeSpecialCommand(key);
   }
 
@@ -72,7 +71,6 @@ export default class Controller {
     if (key.classList.contains('special_key')) {
       this.specialKeyUpAction(key);
     }
-    if (this.lastPressedKey.length < 1) this.lastPressedKey.push(null);
   }
 
   executeSpecialCommand(key) {

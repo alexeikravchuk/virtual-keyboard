@@ -73,18 +73,15 @@ export default class Model {
       startLine = this.line.slice(0, this.cursorPosition - 1);
       endLine = this.line.slice(this.cursorPosition, this.line.length);
       this.cursorPosition -= 1;
-      return 1;
     }
 
     if (position === 'after') {
       startLine = this.line.slice(0, this.cursorPosition);
       endLine = this.line.slice(this.cursorPosition + 1, this.line.length);
-      return 1;
     }
 
     this.line = startLine + endLine;
     this.view.updateText();
-    return 1;
   }
 
   toggleCapsLock() {
